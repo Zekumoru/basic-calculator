@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include <QString>
 #include <cstdarg>
-#include <iostream>
+#include <cstdbool>
 
 extern "C" {
     #include "math/math.h"
@@ -15,6 +15,9 @@ BasicCalculator::BasicCalculator(QWidget *parent)
     : QWidget{parent}
 {
     firstNumber = 0;
+    secondNumber = 0;
+    op = NOOP;
+
     screen = new QLabel(QString::number(firstNumber));
 
     QPushButton *primeButton = new QPushButton(tr("Prime"));
@@ -98,18 +101,33 @@ void BasicCalculator::addRow(int row, int nItems, QString item, ButtonPressed bu
 
 void BasicCalculator::buttonPressed(ButtonPressed pressed)
 {
+    bool affectNumberChanges = false;
+    int currentNumber = (op == NOOP)? firstNumber : secondNumber;
+
     if (ZERO_BUTTON <= pressed && pressed <= NINE_BUTTON) {
         int digit = pressed - ZERO_BUTTON;
-        firstNumber *= 10;
-        firstNumber += digit;
+
+        currentNumber *= 10;
+        currentNumber += digit;
+        affectNumberChanges = true;
     }
 
     if (pressed == BACK_BUTTON) {
-        firstNumber /= 10;
+        if (currentNumber == 0) {
+            op = NOOP;
+        } else {
+            currentNumber /= 10;
+            affectNumberChanges = true;
+        }
     }
 
     if (pressed == DIVIDE_BUTTON) {
-        std::cout << "10 / 2 = " << divide(10, 2) << std::endl;
+        op = DIVIDE_OP;
+    }
+
+    if (affectNumberChanges) {
+        if (op == NOOP) firstNumber = currentNumber;
+        else secondNumber = currentNumber;
     }
 
     updateDisplay();
@@ -117,5 +135,17 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
 
 void BasicCalculator::updateDisplay()
 {
-    screen->setText(tr("%1").arg(firstNumber));
+    QString display = QString::number(firstNumber);
+
+    if (op != NOOP) {
+        QString opString;
+
+        if (op == DIVIDE_OP) {
+            opString = " / ";
+        }
+
+        display += opString + QString::number(secondNumber);
+    }
+
+    screen->setText(display);
 }

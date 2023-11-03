@@ -33,6 +33,11 @@ enum ButtonPressed {
     EQUAL_BUTTON
 };
 
+enum Operation {
+    NOOP,
+    DIVIDE_OP
+};
+
 class BasicCalculator : public QWidget
 {
     Q_OBJECT
@@ -45,6 +50,8 @@ public slots:
 
 private:
     int firstNumber;
+    int secondNumber;
+    Operation op;
 
     QGridLayout *mainLayout;
     QLabel *screen;
