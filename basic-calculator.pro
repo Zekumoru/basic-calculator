@@ -10,4 +10,5 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
-    basiccalculator.h
+    basiccalculator.h \
+    math/math.h
