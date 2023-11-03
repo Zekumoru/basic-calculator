@@ -12,4 +12,5 @@ SOURCES += \
 
 HEADERS += \
     basiccalculator.h \
-    math/math.h
+    math/math.h \
+    test.h
