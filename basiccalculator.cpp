@@ -7,6 +7,10 @@
 #include <cstdarg>
 #include <iostream>
 
+extern "C" {
+    #include "math/math.h"
+}
+
 BasicCalculator::BasicCalculator(QWidget *parent)
     : QWidget{parent}
 {
@@ -93,5 +97,7 @@ void BasicCalculator::addRow(int row, int nItems, QString item, ButtonPressed bu
 
 void BasicCalculator::buttonPressed(ButtonPressed pressed)
 {
-    std::cout << pressed << std::endl;
+    if (pressed == DIVIDE_BUTTON) {
+        std::cout << "10 / 2 = " << divide(10, 2) << std::endl;
+    }
 }
