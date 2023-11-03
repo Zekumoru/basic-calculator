@@ -1,11 +1,10 @@
 #include "math.h"
 #include <stdio.h>
 
-int divisione(int a, int b)
+int divide(int a, int b)
 {
-    
-    int res = 0;
-    int resNegative = 0;
+    int res = 0;         //result output
+    int resNegative = 0; //flag for negative result
     
     if (b == 0) 
     {  
@@ -23,7 +22,7 @@ int divisione(int a, int b)
         return a;
     }
     
-    if(b < 0 && a < 0)
+    if(b < 0 && a < 0)  //change of sign for negative values
     {    
         b = -b;
         a = -a;    
@@ -46,7 +45,7 @@ int divisione(int a, int b)
     }
     while (b <= a);
     
-    if (resNegative)
+    if (resNegative) //if flag then negative result
     {    
         return -res;   
     }
