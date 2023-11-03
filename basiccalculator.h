@@ -9,6 +9,7 @@ class QString;
 class QGridLayout;
 
 enum ButtonPressed {
+    NEGATE_BUTTON,
     PRIME_BUTTON,
     AC_BUTTON,
     BACK_BUTTON,

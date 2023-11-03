@@ -20,10 +20,6 @@ BasicCalculator::BasicCalculator(QWidget *parent)
 
     screen = new QLabel(QString::number(firstNumber));
 
-    QPushButton *primeButton = new QPushButton(tr("Prime"));
-    QPushButton *acButton = new QPushButton(tr("AC"));
-    QPushButton *backButton = new QPushButton(tr("<-"));
-
     QPushButton *zeroButton = new QPushButton(tr("0"));
     QPushButton *equalButton = new QPushButton(tr("="));
     QPushButton *plusButton = new QPushButton(tr("+"));
@@ -31,10 +27,12 @@ BasicCalculator::BasicCalculator(QWidget *parent)
     mainLayout = new QGridLayout;
     mainLayout->addWidget(screen, 0, 0, 1, 4, Qt::AlignRight);
 
-    mainLayout->addWidget(primeButton, 1, 0, 1, 2);
-    mainLayout->addWidget(acButton, 1, 2);
-    mainLayout->addWidget(backButton, 1, 3);
-
+    addRow(
+        1, 4,
+        tr("+/-"), NEGATE_BUTTON,
+        tr("Prime"), PRIME_BUTTON,
+        tr("AC"), AC_BUTTON,
+        tr("<-"), BACK_BUTTON);
     addRow(
         2, 4,
         tr("GCD"), GCD_BUTTON,
@@ -63,10 +61,6 @@ BasicCalculator::BasicCalculator(QWidget *parent)
     mainLayout->addWidget(zeroButton, 6, 0, 1, 2);
     mainLayout->addWidget(equalButton, 6, 2);
     mainLayout->addWidget(plusButton, 6, 3);
-
-    connect(primeButton, &QPushButton::clicked, [this]() { this->buttonPressed(PRIME_BUTTON); });
-    connect(acButton, &QPushButton::clicked, [this]() { this->buttonPressed(AC_BUTTON); });
-    connect(backButton, &QPushButton::clicked, [this]() { this->buttonPressed(BACK_BUTTON); });
 
     connect(zeroButton, &QPushButton::clicked, [this]() { this->buttonPressed(ZERO_BUTTON); });
     connect(equalButton, &QPushButton::clicked, [this]() { this->buttonPressed(EQUAL_BUTTON); });
@@ -110,28 +104,20 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
         currentNumber *= 10;
         currentNumber += digit;
         affectNumberChanges = true;
-    }
-
-    if (pressed == BACK_BUTTON) {
+    } else if (pressed == NEGATE_BUTTON) {
+        currentNumber = -currentNumber;
+        affectNumberChanges = true;
+    } else if (pressed == BACK_BUTTON) {
         if (currentNumber == 0) {
             op = NOOP;
         } else {
             currentNumber /= 10;
             affectNumberChanges = true;
         }
-    }
-
-    if (pressed == DIVIDE_BUTTON) {
+    } else if (pressed == DIVIDE_BUTTON) {
         op = DIVIDE_OP;
-    }
-
-    if (affectNumberChanges) {
-        if (op == NOOP) firstNumber = currentNumber;
-        else secondNumber = currentNumber;
-    }
-
-    if (pressed == EQUAL_BUTTON && op != NOOP) {
-        int result;
+    } else if (pressed == EQUAL_BUTTON && op != NOOP) {
+        int result = 0;
 
         if (op == DIVIDE_OP) {
             result = divide(firstNumber, secondNumber);
@@ -140,6 +126,11 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
         firstNumber = result;
         secondNumber = 0;
         op = NOOP;
+    }
+
+    if (affectNumberChanges) {
+        if (op == NOOP) firstNumber = currentNumber;
+        else secondNumber = currentNumber;
     }
 
     updateDisplay();
