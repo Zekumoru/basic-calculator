@@ -130,6 +130,18 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
         else secondNumber = currentNumber;
     }
 
+    if (pressed == EQUAL_BUTTON && op != NOOP) {
+        int result;
+
+        if (op == DIVIDE_OP) {
+            result = divide(firstNumber, secondNumber);
+        }
+
+        firstNumber = result;
+        secondNumber = 0;
+        op = NOOP;
+    }
+
     updateDisplay();
 }
 
