@@ -14,7 +14,8 @@ extern "C" {
 BasicCalculator::BasicCalculator(QWidget *parent)
     : QWidget{parent}
 {
-    screen = new QLabel(QString::number(0));
+    firstNumber = 0;
+    screen = new QLabel(QString::number(firstNumber));
 
     QPushButton *primeButton = new QPushButton(tr("Prime"));
     QPushButton *acButton = new QPushButton(tr("AC"));
@@ -97,7 +98,24 @@ void BasicCalculator::addRow(int row, int nItems, QString item, ButtonPressed bu
 
 void BasicCalculator::buttonPressed(ButtonPressed pressed)
 {
+    if (ZERO_BUTTON <= pressed && pressed <= NINE_BUTTON) {
+        int digit = pressed - ZERO_BUTTON;
+        firstNumber *= 10;
+        firstNumber += digit;
+    }
+
+    if (pressed == BACK_BUTTON) {
+        firstNumber /= 10;
+    }
+
     if (pressed == DIVIDE_BUTTON) {
         std::cout << "10 / 2 = " << divide(10, 2) << std::endl;
     }
+
+    updateDisplay();
+}
+
+void BasicCalculator::updateDisplay()
+{
+    screen->setText(tr("%1").arg(firstNumber));
 }

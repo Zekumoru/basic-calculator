@@ -44,9 +44,12 @@ public slots:
     void buttonPressed(ButtonPressed pressed);
 
 private:
+    int firstNumber;
+
     QGridLayout *mainLayout;
     QLabel *screen;
 
+    void updateDisplay();
     void addRow(int row, int nItems, QString item, ButtonPressed button,...);
 
 };
