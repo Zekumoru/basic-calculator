@@ -68,7 +68,7 @@ private:
     QLabel *screen;
 
     void updateDisplay();
-    void addRow(int row, int nItems, QString item, ButtonPressed button,...);
+    void addRow(int row, int nItems, QString item, ButtonPressed button, bool implemented, ...);
 
 };
 

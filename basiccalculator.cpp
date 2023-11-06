@@ -30,34 +30,34 @@ BasicCalculator::BasicCalculator(QWidget *parent)
 
     addRow(
         1, 4,
-        tr("+/-"), NEGATE_BUTTON,
-        tr("Prime"), PRIME_BUTTON,
-        tr("AC"), AC_BUTTON,
-        tr("<-"), BACK_BUTTON);
+        tr("+/-"), NEGATE_BUTTON, true,
+        tr("Prime"), PRIME_BUTTON, false,
+        tr("AC"), AC_BUTTON, false,
+        tr("<-"), BACK_BUTTON, true);
     addRow(
         2, 4,
-        tr("GCD"), GCD_BUTTON,
-        tr("LCM"), LCM_BUTTON,
-        tr("Sqrt"), SQRT_BUTTON,
-        tr("^"), EXP_BUTTON);
+        tr("GCD"), GCD_BUTTON, false,
+        tr("LCM"), LCM_BUTTON, false,
+        tr("Sqrt"), SQRT_BUTTON, false,
+        tr("^"), EXP_BUTTON, false);
     addRow(
         3, 4,
-        tr("7"), SEVEN_BUTTON,
-        tr("8"), EIGHT_BUTTON,
-        tr("9"), NINE_BUTTON,
-        tr("/"), DIVIDE_BUTTON);
+        tr("7"), SEVEN_BUTTON, true,
+        tr("8"), EIGHT_BUTTON, true,
+        tr("9"), NINE_BUTTON, true,
+        tr("/"), DIVIDE_BUTTON, true);
     addRow(
         4, 4,
-        tr("4"), FOUR_BUTTON,
-        tr("5"), FIVE_BUTTON,
-        tr("6"), SIX_BUTTON,
-        tr("*"), MULTIPLY_BUTTON);
+        tr("4"), FOUR_BUTTON, true,
+        tr("5"), FIVE_BUTTON, true,
+        tr("6"), SIX_BUTTON, true,
+        tr("*"), MULTIPLY_BUTTON, false);
     addRow(
         5, 4,
-        tr("1"), ONE_BUTTON,
-        tr("2"), TWO_BUTTON,
-        tr("3"), THREE_BUTTON,
-        tr("-"), SUBTRACT_BUTTON);
+        tr("1"), ONE_BUTTON, true,
+        tr("2"), TWO_BUTTON, true,
+        tr("3"), THREE_BUTTON, true,
+        tr("-"), SUBTRACT_BUTTON, true);
 
     mainLayout->addWidget(zeroButton, 6, 0, 1, 2);
     mainLayout->addWidget(equalButton, 6, 2);
@@ -71,20 +71,23 @@ BasicCalculator::BasicCalculator(QWidget *parent)
     setWindowTitle(tr("Basic Calculator"));
 }
 
-void BasicCalculator::addRow(int row, int nItems, QString item, ButtonPressed buttonPressed, ...)
+void BasicCalculator::addRow(int row, int nItems, QString item, ButtonPressed buttonPressed, bool implemented, ...)
 {
     va_list items;
-    va_start(items, buttonPressed);
+    va_start(items, implemented);
 
+    bool currentImplemented = implemented;
     ButtonPressed currentButtonPressed = buttonPressed;
     QString* current = &item;
     for (int i = 0; i < nItems; i++) {
         if (i != 0) {
             current = va_arg(items, QString*);
             currentButtonPressed = (ButtonPressed) va_arg(items, int);
+            currentImplemented = (bool) va_arg(items, int);
         }
 
         QPushButton *button = new QPushButton(*current);
+        button->setEnabled(currentImplemented);
         mainLayout->addWidget(button, row, i);
         connect(button, &QPushButton::clicked, [this, currentButtonPressed]() {
             this->buttonPressed(currentButtonPressed);
