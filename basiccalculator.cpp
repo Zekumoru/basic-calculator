@@ -119,8 +119,16 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
     } else if (pressed == EQUAL_BUTTON && op != NOOP) {
         int result = 0;
 
-        if (op == DIVIDE_OP) {
+        switch (op) {
+        case ADD_OP:
+            result = firstNumber + secondNumber;
+            break;
+        case SUBTRACT_OP:
+            result = firstNumber - secondNumber;
+            break;
+        case DIVIDE_OP:
             result = divide(firstNumber, secondNumber);
+            break;
         }
 
         firstNumber = result;
@@ -143,8 +151,16 @@ void BasicCalculator::updateDisplay()
     if (op != NOOP) {
         QString opString;
 
-        if (op == DIVIDE_OP) {
+        switch (op) {
+        case ADD_OP:
+            opString = " + ";
+            break;
+        case SUBTRACT_OP:
+            opString = " - ";
+            break;
+        case DIVIDE_OP:
             opString = " / ";
+            break;
         }
 
         display += opString + QString::number(secondNumber);
