@@ -2,43 +2,37 @@
 #include <stdio.h>
 
 
-int modulus(int a, int b){
-    
-    if (b == 0) {
-        
+int modulus(int a, int b)
+{  
+    if (b == 0)
+    {    
         printf("Err.");
-        return -1;
-        
+        return -1;   
     }
     
-    if (a == 0 || b == 1){
-        
+    if (a == 0 || b == 1)
+    {    
         return 0;
-        
     }
     
-    if(b < 0 && a < 0){
-        
+    if(b < 0 && a < 0)
+    {    
         b = -b;
-        a = -a;
-        
+        a = -a;   
     }
-    else if (b < 0){
-        
+    else if (b < 0)
+    {    
         b = -b;
     }
-    else if (a < 0){
-            
-        a = -a;
-        
+    else if (a < 0)
+    {        
+        a = -a;   
     }
     
-    while(a >= b){
-        
-        a -= b;
-        
+    while(a >= b)
+    {    
+        a -= b;   
     }
     
     return a;
-    
 }

@@ -6,7 +6,7 @@ int prime(int n)
     
     for (int i = n-1; i > 1; i--)
     { 
-        check = modulo(n, i);
+        check = modulus(n, i);
 
         if (check == 0)
         {
