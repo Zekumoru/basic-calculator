@@ -27,6 +27,13 @@ bin/basic_calculator
 
 ## Changelogs
 
+### ver0.0.231106
+
+- disable buttons interaction on unimplemented features
+- implemented all clear (AC)
+- implemented subtraction
+- implemented addition
+
 ### ver0.0.231104
 
 Initial alpha release

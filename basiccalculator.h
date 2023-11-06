@@ -3,20 +3,17 @@
 
 #include <QWidget>
 #include <cstdarg>
+#include <cstdbool>
 
 class QLabel;
 class QString;
 class QGridLayout;
 
 enum ButtonPressed {
+    EQUAL_BUTTON,
     NEGATE_BUTTON,
-    PRIME_BUTTON,
     AC_BUTTON,
     BACK_BUTTON,
-    GCD_BUTTON,
-    LCM_BUTTON,
-    SQRT_BUTTON,
-    EXP_BUTTON,
     ZERO_BUTTON,
     ONE_BUTTON,
     TWO_BUTTON,
@@ -31,12 +28,24 @@ enum ButtonPressed {
     SUBTRACT_BUTTON,
     MULTIPLY_BUTTON,
     DIVIDE_BUTTON,
-    EQUAL_BUTTON
+    PRIME_BUTTON,
+    GCD_BUTTON,
+    LCM_BUTTON,
+    SQRT_BUTTON,
+    EXP_BUTTON
 };
 
 enum Operation {
     NOOP,
-    DIVIDE_OP
+    ADD_OP,
+    SUBTRACT_OP,
+    MULTIPLY_OP,
+    DIVIDE_OP,
+    PRIME_OP,
+    GCD_OP,
+    LCM_OP,
+    SQRT_OP,
+    EXP_OP
 };
 
 class BasicCalculator : public QWidget
@@ -53,12 +62,14 @@ private:
     int firstNumber;
     int secondNumber;
     Operation op;
+    bool hasJustPressedOp;
 
     QGridLayout *mainLayout;
     QLabel *screen;
 
+    void clear();
     void updateDisplay();
-    void addRow(int row, int nItems, QString item, ButtonPressed button,...);
+    void addRow(int row, int nItems, QString item, ButtonPressed button, bool implemented, ...);
 
 };
 
