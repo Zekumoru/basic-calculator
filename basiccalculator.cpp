@@ -114,8 +114,8 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
             currentNumber /= 10;
             affectNumberChanges = true;
         }
-    } else if (pressed == DIVIDE_BUTTON) {
-        op = DIVIDE_OP;
+    } else if (ADD_BUTTON <= pressed && pressed <= EXP_BUTTON) {
+        op = (Operation)(pressed - ADD_BUTTON + ADD_OP);
     } else if (pressed == EQUAL_BUTTON && op != NOOP) {
         int result = 0;
 
