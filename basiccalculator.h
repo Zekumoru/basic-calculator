@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <cstdarg>
+#include <cstdbool>
 
 class QLabel;
 class QString;
@@ -61,6 +62,7 @@ private:
     int firstNumber;
     int secondNumber;
     Operation op;
+    bool hasJustPressedOp;
 
     QGridLayout *mainLayout;
     QLabel *screen;

@@ -17,6 +17,7 @@ BasicCalculator::BasicCalculator(QWidget *parent)
     firstNumber = 0;
     secondNumber = 0;
     op = NOOP;
+    hasJustPressedOp = false;
 
     screen = new QLabel(QString::number(firstNumber));
 
@@ -95,6 +96,8 @@ void BasicCalculator::addRow(int row, int nItems, QString item, ButtonPressed bu
 
 void BasicCalculator::buttonPressed(ButtonPressed pressed)
 {
+    hasJustPressedOp = false;
+
     bool affectNumberChanges = false;
     int currentNumber = (op == NOOP)? firstNumber : secondNumber;
 
@@ -116,6 +119,7 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
         }
     } else if (ADD_BUTTON <= pressed && pressed <= EXP_BUTTON) {
         op = (Operation)(pressed - ADD_BUTTON + ADD_OP);
+        hasJustPressedOp = true;
     } else if (pressed == EQUAL_BUTTON && op != NOOP) {
         int result = 0;
 
@@ -153,17 +157,21 @@ void BasicCalculator::updateDisplay()
 
         switch (op) {
         case ADD_OP:
-            opString = " + ";
+            opString = " +";
             break;
         case SUBTRACT_OP:
-            opString = " - ";
+            opString = " -";
             break;
         case DIVIDE_OP:
-            opString = " / ";
+            opString = " /";
             break;
         }
 
-        display += opString + QString::number(secondNumber);
+        display += opString;
+
+        if (!hasJustPressedOp) {
+            display += " " + QString::number(secondNumber);
+        }
     }
 
     screen->setText(display);
