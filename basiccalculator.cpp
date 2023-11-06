@@ -14,10 +14,7 @@ extern "C" {
 BasicCalculator::BasicCalculator(QWidget *parent)
     : QWidget{parent}
 {
-    firstNumber = 0;
-    secondNumber = 0;
-    op = NOOP;
-    hasJustPressedOp = false;
+    clear();
 
     screen = new QLabel(QString::number(firstNumber));
 
@@ -32,7 +29,7 @@ BasicCalculator::BasicCalculator(QWidget *parent)
         1, 4,
         tr("+/-"), NEGATE_BUTTON, true,
         tr("Prime"), PRIME_BUTTON, false,
-        tr("AC"), AC_BUTTON, false,
+        tr("AC"), AC_BUTTON, true,
         tr("<-"), BACK_BUTTON, true);
     addRow(
         2, 4,
@@ -97,6 +94,14 @@ void BasicCalculator::addRow(int row, int nItems, QString item, ButtonPressed bu
     va_end(items);
 }
 
+void BasicCalculator::clear()
+{
+    firstNumber = 0;
+    secondNumber = 0;
+    op = NOOP;
+    hasJustPressedOp = false;
+}
+
 void BasicCalculator::buttonPressed(ButtonPressed pressed)
 {
     hasJustPressedOp = false;
@@ -113,6 +118,8 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
     } else if (pressed == NEGATE_BUTTON) {
         currentNumber = -currentNumber;
         affectNumberChanges = true;
+    } else if (pressed == AC_BUTTON) {
+        clear();
     } else if (pressed == BACK_BUTTON) {
         if (currentNumber == 0) {
             op = NOOP;

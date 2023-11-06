@@ -67,6 +67,7 @@ private:
     QGridLayout *mainLayout;
     QLabel *screen;
 
+    void clear();
     void updateDisplay();
     void addRow(int row, int nItems, QString item, ButtonPressed button, bool implemented, ...);
 
