@@ -15,6 +15,6 @@ int gcd(int a, int b);
 
 int lcm(int a, int b);
 
-int sqroot(int n);
+double sqroot(int n); //the result has to be double since we divide in the func
 
 #endif // MATH_H
