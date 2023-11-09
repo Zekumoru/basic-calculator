@@ -53,9 +53,9 @@ BasicCalculator::BasicCalculator(QWidget *parent)
     mainLayout->addWidget(equalButton, 6, 2);
     mainLayout->addWidget(plusButton, 6, 3);
 
-    connect(zeroButton, &QPushButton::clicked, [this]() { this->buttonPressed(ZERO_BUTTON); });
-    connect(equalButton, &QPushButton::clicked, [this]() { this->buttonPressed(EQUAL_BUTTON); });
-    connect(plusButton, &QPushButton::clicked, [this]() { this->buttonPressed(ADD_BUTTON); });
+    connect(zeroButton, &QPushButton::clicked, this, [this]() { this->buttonPressed(ZERO_BUTTON); });
+    connect(equalButton, &QPushButton::clicked, this, [this]() { this->buttonPressed(EQUAL_BUTTON); });
+    connect(plusButton, &QPushButton::clicked, this, [this]() { this->buttonPressed(ADD_BUTTON); });
 
     setLayout(mainLayout);
     setWindowTitle(tr("Basic Calculator"));
@@ -68,7 +68,7 @@ void BasicCalculator::addButton(int row, int col, QString label, ButtonPressed p
     button->setEnabled(isImplemented);
     mainLayout->addWidget(button, row, col);
 
-    connect(button, &QPushButton::clicked, [this, pressed]() {
+    connect(button, &QPushButton::clicked, this, [this, pressed]() {
         this->buttonPressed(pressed);
     });
 }
