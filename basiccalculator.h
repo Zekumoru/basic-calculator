@@ -2,7 +2,6 @@
 #define BASICCALCULATOR_H
 
 #include <QWidget>
-#include <cstdarg>
 #include <cstdbool>
 
 class QLabel;
@@ -69,7 +68,7 @@ private:
 
     void clear();
     void updateDisplay();
-    void addRow(int row, int nItems, QString item, ButtonPressed button, bool implemented, ...);
+    void addButton(int row, int col, QString label, ButtonPressed pressed, bool isImplemented);
 
 };
 
