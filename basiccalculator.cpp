@@ -29,8 +29,8 @@ BasicCalculator::BasicCalculator(QWidget *parent)
     addButton(1, 2, tr("AC"), AC_BUTTON, true);
     addButton(1, 3, tr("<-"), BACK_BUTTON, true);
 
-    addButton(2, 0, tr("GCD"), GCD_BUTTON, false);
-    addButton(2, 1, tr("LCM"), LCM_BUTTON, false);
+    addButton(2, 0, tr("GCD"), GCD_BUTTON, true);
+    addButton(2, 1, tr("LCM"), LCM_BUTTON, false); // need multiply function
     addButton(2, 2, tr("Sqrt"), SQRT_BUTTON, true);
     addButton(2, 3, tr("^"), EXP_BUTTON, false);
 
@@ -127,6 +127,12 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
         case DIVIDE_OP:
             result = divide(firstNumber, secondNumber);
             break;
+        case GCD_OP:
+            result = gcd(firstNumber, secondNumber);
+            break;
+        case LCM_OP:
+            result = lcm(firstNumber, secondNumber);
+            break;
         case PRIME_OP:
             result = prime(firstNumber);
             break;
@@ -165,12 +171,25 @@ void BasicCalculator::updateDisplay()
         case DIVIDE_OP:
             opString = " /";
             break;
+        case GCD_OP:
+            opString = "GCD(";
+            break;
+        case LCM_OP:
+            opString = "LCM(";
+            break;
+        case PRIME_OP:
+        case SQRT_OP:
+            break;
         }
 
-        display += opString;
-
-        if (!hasJustPressedOp) {
-            display += " " + QString::number(secondNumber);
+        QString secondNumberString = QString::number(secondNumber);
+        if (GCD_OP <= op && op <= LCM_OP) {
+            display = opString + display + ", " + secondNumberString + ")";
+        } else {
+            display += opString;
+            if (!hasJustPressedOp) {
+                display += " " + secondNumberString;
+            }
         }
     }
 
