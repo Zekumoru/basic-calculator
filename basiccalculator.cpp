@@ -25,13 +25,13 @@ BasicCalculator::BasicCalculator(QWidget *parent)
     mainLayout->addWidget(screen, 0, 0, 1, 4, Qt::AlignRight);
 
     addButton(1, 0, tr("+/-"), NEGATE_BUTTON, true);
-    addButton(1, 1, tr("Prime"), PRIME_BUTTON, false);
+    addButton(1, 1, tr("Prime"), PRIME_BUTTON, true);
     addButton(1, 2, tr("AC"), AC_BUTTON, true);
     addButton(1, 3, tr("<-"), BACK_BUTTON, true);
 
     addButton(2, 0, tr("GCD"), GCD_BUTTON, false);
     addButton(2, 1, tr("LCM"), LCM_BUTTON, false);
-    addButton(2, 2, tr("Sqrt"), SQRT_BUTTON, false);
+    addButton(2, 2, tr("Sqrt"), SQRT_BUTTON, true);
     addButton(2, 3, tr("^"), EXP_BUTTON, false);
 
     addButton(3, 0, tr("7"), SEVEN_BUTTON, true);
@@ -106,9 +106,14 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
             currentNumber /= 10;
             affectNumberChanges = true;
         }
-    } else if (ADD_BUTTON <= pressed && pressed <= EXP_BUTTON) {
+    } else if (ADD_BUTTON <= pressed && pressed <= SQRT_BUTTON) {
         op = (Operation)(pressed - ADD_BUTTON + ADD_OP);
         hasJustPressedOp = true;
+
+        if (PRIME_OP <= op && op <= SQRT_OP) {
+            buttonPressed(EQUAL_BUTTON);
+            return;
+        }
     } else if (pressed == EQUAL_BUTTON && op != NOOP) {
         int result = 0;
 
@@ -121,6 +126,12 @@ void BasicCalculator::buttonPressed(ButtonPressed pressed)
             break;
         case DIVIDE_OP:
             result = divide(firstNumber, secondNumber);
+            break;
+        case PRIME_OP:
+            result = prime(firstNumber);
+            break;
+        case SQRT_OP:
+            result = sqroot(firstNumber);
             break;
         }
 
